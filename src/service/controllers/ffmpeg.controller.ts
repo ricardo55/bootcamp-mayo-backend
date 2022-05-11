@@ -2,11 +2,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable new-cap */
 
-import {spawn} from 'child_process';
-import {videoStatusController} from './videostatus.controller';
+import { spawn } from 'child_process';
+import { videoStatusController } from './videostatus.controller';
 
-const AsyncFFMPEG = ( principalCommand: any, args: any, options: any ) =>
-  new Promise((resolve, reject)=> {
+const AsyncFFMPEG = (principalCommand: any, args: any, options: any) =>
+  new Promise((resolve, reject) => {
     const child = spawn(principalCommand, args, options);
 
     child.stdout.on('data', (data) => {
@@ -54,11 +54,40 @@ class FFMPEGMANAGER {
     }
   }
 
+  async ffmpegMerge(inputVideoSource: string, outputVideoSrc: string) {
+
+
+    try {
+
+      const inputVideoSrc = `${inputVideoSource}`;
+      const principalCommand = 'ffmpeg';
+      // command    ffmpeg -f concat -safe 0 -i mylist.txt -c copy output.mp4
+      const args = [
+        '-f concat',
+        '-safe 0',
+        '-i',
+        `${inputVideoSrc}`,
+        '-c',
+        'copy',
+        `${outputVideoSrc}`
+      ];
+      const options = {
+        shell: true,
+      };
+
+      await AsyncFFMPEG(principalCommand, args, options);
+      return outputVideoSrc;
+
+    } catch (error) {
+      throw error
+    }
+  }
+
   async processVideo(
-      inputVideoSource: string,
-      outputVideoSrc: string,
-      context: any,
-      videoSourceId: string) {
+    inputVideoSource: string,
+    outputVideoSrc: string,
+    context: any,
+    videoSourceId: string) {
     try {
       const isValidFile = await this.ffprobe();
       if (!isValidFile) {
@@ -67,9 +96,9 @@ class FFMPEGMANAGER {
       // // generar mas status de procesamiento de video
 
       await videoStatusController.createVideoStatus(
-          videoSourceId,
-          context,
-          'doing',
+        videoSourceId,
+        context,
+        'doing',
       );
 
       const outPutPath = await this.ffmpeg(inputVideoSource, outputVideoSrc);
@@ -78,7 +107,36 @@ class FFMPEGMANAGER {
       throw error;
     }
   }
+  async processVideoMerge(
+    inputVideoSource: string,
+    outputVideoSrc: string,
+    context: any,
+    videoSourceId: string) {
+    try {
+      const isValidFile = await this.ffprobe();
+      if (!isValidFile) {
+        throw new Error('El archivo no esta disponible');
+      };
+      //status proc
+
+      await videoStatusController.createVideoStatus(
+        videoSourceId,
+        context,
+        'doing',
+      );
+
+      const outPutPath = await this.ffmpegMerge(inputVideoSource, outputVideoSrc);
+      return outPutPath;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }
+
+
+
+
 
 
 const ffmpegController = new FFMPEGMANAGER();

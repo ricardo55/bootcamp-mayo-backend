@@ -6,8 +6,13 @@ const [nodeParam, fileExecuteParam, firstParams, secondParams] = process.argv;
 
 
 const sendDataToOS = (inputVideoSource: string) => {
-  const inputVideoSrc = `${__dirname}/${inputVideoSource}`;
-  const outputVideoSrc = createPathTemp(inputVideoSource, 'mp4');
+
+  //const inputVideoSrc = `${__dirname}/${inputVideoSource}`;
+
+  const inputVideoSrc = 'src/unirVideos/'+ `${inputVideoSource}`;
+  let contador:any = 4;
+  contador++;
+  const outputVideoSrc = createPathTemp(inputVideoSource+contador, 'mp4');
 
 // ffmpeg -f concat -safe 0 -i mylist.txt -c copy output.mp4
   const principalCommand = 'ffmpeg';

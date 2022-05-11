@@ -1,2 +1,0 @@
-file '/Users/ricardovb/Documents/bootcamp-mayo-backend/src/unirVideos/video1.mp4'
-file '/Users/ricardovb/Documents/bootcamp-mayo-backend/src/unirVideos/video4.mp4'

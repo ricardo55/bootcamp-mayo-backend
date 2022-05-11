@@ -1,22 +1,22 @@
-import {Router} from 'restify-router';
-import {videoFlowController} from '../controllers/videoflow.controller';
+import { Router } from 'restify-router';
+import { videoFlowController } from '../controllers/videoflow.controller';
 
-const routerFlowInstance = new Router();
+const rutaDeFlujo = new Router();
 
 
-routerFlowInstance.post('/processvideo', async (req, res) => {
+rutaDeFlujo.post('/processvideo', async (req, res) => {
   try {
-    const {inputvideo} = req.body;
-    res.json({inputvideo});
+    const { inputvideo } = req.body;
+    res.json({ inputvideo });
     await videoFlowController.executeProcess(inputvideo);
   } catch (error) {
-    let errorMessage = 'Failed to do something exceptional';
+    let errorMessage = 'Fallo al procesar el video';
     if (error instanceof Error) {
       errorMessage = error.message;
     }
-    return res.json({success: false, error: true, message: errorMessage});
+    return res.json({ success: false, error: true, message: errorMessage });
   }
 });
 
 
-export default routerFlowInstance;
+export default rutaDeFlujo;
