@@ -15,8 +15,8 @@ const sendDataToOS = (inputVideoSource: string) => {
     '+genpts',
     '-i',
     `${inputVideoSrc}`,
-    '-r',
-    '24',
+   // '-r',
+  //  '24',
     `${outputVideoSrc}`];
   const options = {
     shell: true,

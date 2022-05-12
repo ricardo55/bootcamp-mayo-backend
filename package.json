@@ -3,6 +3,7 @@
     "tsc": "tsc",
     "dev": "nodemon src/index.ts",
     "app": "nodemon src/internalapp/index.ts",
+    "app2": "nodemon src/unirVideos/index.ts",
     "build": "nodemon src/internalapp/index.ts"
   },
   "engines": {
