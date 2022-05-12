@@ -14,4 +14,9 @@ npm i ó npm init
 yarn dev
 ```
 
+Para correr el otro comando en el proyecto de crear los videos:
+```
+yarn app2 nombreLista.txt nombreVideo
+```
+
 Para correr en otros ambientes, revisar el package.json
